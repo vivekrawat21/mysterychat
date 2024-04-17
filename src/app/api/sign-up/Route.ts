@@ -2,7 +2,6 @@ import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 import dbConnect from "@/lib/dbConnect";
 import UserModel from "@/model/User";
 import bcrypt from "bcryptjs";
-import { stat } from "fs";
 
 export async function POST(req: Request) {
     await dbConnect();
@@ -49,6 +48,13 @@ export async function POST(req: Request) {
             exisUserByEmail.verifyCodeExpiry = expiryDate;
             
             await exisUserByEmail.save();
+            return Response.json({
+                success: true,
+                message: "please verify your email to login",
+                data: exisUserByEmail
+            },
+            {status:201}
+            )
         }
         }
         else {
