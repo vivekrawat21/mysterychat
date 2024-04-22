@@ -49,7 +49,7 @@ const page = () => {
         setUsernameMessage("");
         try {
           const response = await axios.get(
-            `/api/auth/check-username-unique?username=${username}`
+            `/api/check-username-unique?username=${username}`
           );
           console.log(response.data.message);
           let message = response.data.message;
@@ -70,7 +70,7 @@ const page = () => {
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     setIsSubmitting(true);
     try {
-      const response = await axios.post<ApiResponse>("/api/auth/sign-up", data);
+      const response = await axios.post<ApiResponse>("/api/sign-up", data);
       console.log(response.data);
       toast({
         title: "Success",
@@ -118,7 +118,7 @@ const page = () => {
                     />
                   </FormControl>
                   {isCheckingUsername && <Loader2 className="animate-spin" />}
-                  <p className={`text-sm ${username==="Username is unique" ?'text-green-500':'text-red-400'}`}>
+                  <p className={`text-sm ${usernameMessage==="Username is unique" ?'text-green-500':'text-red-400'}`}>
                      {usernameMessage}
                   </p>
                   <FormMessage />
