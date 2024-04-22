@@ -2,7 +2,7 @@ import dbConnect from "@/lib/dbConnect";
 import { z } from 'zod';
 import UserModel from "@/model/User";
 import { verifySchema } from "@/schemas/verifySchema"; //schema for zod
-import exp from "constants";
+
 
 const verifyCodeQuerySchema = z.object({
     verifyCode: verifySchema
