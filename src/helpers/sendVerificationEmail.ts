@@ -9,7 +9,7 @@ export async function sendVerificationEmail(
         try {
             await resend.emails.send({
                 from: 'onboarding@resend.dev',
-                to: 'user@gmail.com',
+                to: email,
                 subject: 'Mystry chat verification code',
                 react: VerificationEmail({username, otp:verifyCode})
               });
