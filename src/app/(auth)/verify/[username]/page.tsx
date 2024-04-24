@@ -37,50 +37,51 @@ function page() {
             router.replace('/sign-in');
         } catch (error) {
            
-                console.error("error in sign up user", error);
+                console.error("error in verification", error);
                 const axiosError = error as AxiosError<ApiResponse>;
                 let errorMessage = axiosError.response?.data.message;
                 toast({
-                  title: "Sign up failed",
-                  description: errorMessage || "Error in signing up",
+                  title: "verification error",
+                  description: errorMessage || "An error occurred while verifying your account",
                   variant: "destructive",
                 });
         }
     }
   return (
     <>
-     <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <div className="text-center">
-          <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
-           Verify Your Account
-          </h1>
-          <p className="mb-4">enter the verification code sent to your email</p>
-        </div>
-        <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <FormField
-        name="code"
-          control={form.control}
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Verification code</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
-              </FormControl>
-           
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      <div className="flex justify-center items-center min-h-screen bg-gray-100">
+        <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
+          <div className="text-center">
+            <h1 className="text-4xl font-extrabold tracking-tight lg:text-5xl mb-6">
+              Verify Your Account
+            </h1>
+            <p className="mb-4">
+              enter the verification code sent to your email
+            </p>
+          </div>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                name="code"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Verification code</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter verification code" {...field} />
+                    </FormControl>
 
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit">Submit</Button>
+            </form>
+          </Form>
         </div>
-        </div>
+      </div>
     </>
-  )
+  );
 }
 
 export default page
