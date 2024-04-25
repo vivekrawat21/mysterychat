@@ -6,6 +6,7 @@ import * as z from "zod";
 import Link from "next/link";
 import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import {} from "next-auth/jwt";
 
 import {
   Form,
@@ -19,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
+import next from "next";
 
 const page = () => {
   const { toast } = useToast();
@@ -41,6 +43,7 @@ const page = () => {
       identifier: data.identifier,
       password: data.password,
     });
+    console.log(result);
     if (result?.error) {
       toast({
         title: "Error while login",
@@ -49,12 +52,15 @@ const page = () => {
       });
     }
     if (result?.url) {
+      
       toast({
         title: "login successfull",
         description: "You are successfully logged in",
         variant: "default",
       });
       router.replace("/dashboard");
+     
+      
     }
   };
   return (
