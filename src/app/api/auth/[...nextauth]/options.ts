@@ -8,13 +8,13 @@ export const authOptions: NextAuthOptions = {
     providers:[
         CredentialsProvider({
             id:"credentials",
-            name:"credentials",
+            name:"Credentials",
             credentials: {
-                email: { label: "Email", type: "email", placeholder: "Enter your email" },
+                email: { label: "Email", type: "text"},
                 password: { label: "Password", type: "password" }
             },
             //because credentials is our so the authorize should also be our
-            async authorize   (credentials:any):Promise<any>{
+            async authorize(credentials:any): Promise<any>{
                 await dbConnect();
 
                 try {
@@ -26,7 +26,7 @@ export const authOptions: NextAuthOptions = {
                             {
                                 username: credentials.identifier
                             }
-                        ]
+                        ],
                     });
                     if(!user){
                         throw new Error("No user found");
@@ -47,8 +47,8 @@ export const authOptions: NextAuthOptions = {
                 } catch (error:any) {
                     throw new Error(error);
                 }
-            }            
-        })
+            },         
+        }),
     ],
      callbacks:{
         async jwt({token, user}){
@@ -56,6 +56,7 @@ export const authOptions: NextAuthOptions = {
                 token._id = user._id?.toString();
                 token.isVerified = user.isVerified;
                 token.isAcceptingMessages = user.isAcceptingMessages;
+                token.username = user.username;
             }
             return token;
         },
@@ -67,13 +68,13 @@ export const authOptions: NextAuthOptions = {
                 session.user.username = token.username;
             }
             return session;
-        }
+        },
      },
-    pages:{
-        signIn:'/sign-in'
-    },
-    session:{
+     session:{
         strategy:'jwt'
     },
     secret: process.env.SECRET,
-}
+    pages:{
+        signIn:'/sign-in'
+    },  
+};
