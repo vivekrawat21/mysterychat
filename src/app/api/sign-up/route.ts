@@ -90,6 +90,8 @@ export async function POST(req: Request) {
             return Response.json({
                 success: true,
                 message: "user Registered successfully,please verify your email to login",
+                data: {username,email,isVerified:false,isAcceptingMessages:true,
+                }
             },{status:201}
             )  }
          }

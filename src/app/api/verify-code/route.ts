@@ -36,7 +36,16 @@ export async function POST(request: Request) {
             await user.save();
             return Response.json({
                 success: true,
-                message: "Account verified successfully"
+                message: "Account verified successfully",
+                user: {
+                    username: user.username,
+                    email: user.email,
+                    isVerified: user.isVerified,
+                    acceptingMessages: user.isAcceptingMessages
+                }
+            },
+                {
+                    status: 200
             })
         }
         else if(!isCodeNotExpired){

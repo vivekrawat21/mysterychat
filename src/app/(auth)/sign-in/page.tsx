@@ -42,6 +42,7 @@ const page = () => {
       password: data.password,
     });
     console.log(result);
+    router.replace("/dashboard");
     if (result?.error) {
       toast({
         title: "Error while login",
