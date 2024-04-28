@@ -10,7 +10,7 @@ import {
 import messages from '@/messages.json'
 import Autoplay from 'embla-carousel-autoplay'
 
-function page() {
+function Home() {
   return (
     <>
  <main className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py:12">
@@ -58,4 +58,4 @@ plugins={[Autoplay({delay:2000})]}>
   )
 }
 
-export default page
+export default Home
