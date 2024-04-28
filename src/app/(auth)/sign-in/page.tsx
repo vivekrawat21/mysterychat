@@ -41,21 +41,30 @@ const page = () => {
       identifier: data.identifier,
       password: data.password,
     });
-    console.log(result);
-    router.replace("/dashboard");
     if (result?.error) {
-      toast({
-        title: "Error while login",
-        description: "Incorrect username or password",
-        variant: "destructive",
-      });
+      if(result.error === "CredentialsSignin"){
+        toast({
+          title: "Login failed",
+          description: "Incorrect username or password",
+          variant: "destructive",
+        });
+      }
+        else{
+          toast({
+            title: 'error',
+            description: "Something went wrong",
+            variant: "destructive",
+          });
+      }
     }
     if (result?.url) {
+      
       toast({
         title: "login successfull",
         description: "You are successfully logged in",
         variant: "default",
       });
+      router.replace('/dashboard');
     }
   };
   return (
