@@ -7,7 +7,7 @@ import { User } from "next-auth"; //t
 export async function DELETE(request: Request,{params}:{params:{messageid:string}}) {
     const messageid=params.messageid;
     await dbConnect();
-
+    
 
     const session = await getServerSession(authOptions); // Await the getServerSession function call
     const user: User = session?.user as User; //asserted
@@ -20,7 +20,7 @@ export async function DELETE(request: Request,{params}:{params:{messageid:string
             }, { status: 401 });
     }
     try {
-        const updatedResult = await UserModel.updateOne({ _id: user._id }, { $pull: { messages: { _id: messageid } } }); //the pull will pull/delete the message which have message idand return the updated document
+        const updatedResult = await UserModel.updateOne({ _id: user._id }, { $pull: { message: { _id: messageid } } }); //the pull will pull/delete the message which have message idand return the updated document
 
         if(updatedResult.modifiedCount==0){
             return Response.json(

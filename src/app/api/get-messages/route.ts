@@ -19,29 +19,31 @@ export async function GET(request: Request) {
             }, { status: 401 });
     }
     const userId = new mongoose.Types.ObjectId(_user._id); //this will convert the string id to ObjectId it is reuired while using aggregation pipeline
+
     try {
         const user = await UserModel.aggregate([
             {$match: { _id: userId } },
             {
-                $unwind: "$messages"
+                $unwind: "$message"
             }
             ,
             {
-                $sort: { "messages.createdAt":-1}
+                $sort: { "message.createdAt": -1 }
             }
             ,
             {
                 $group: {
                     _id: "$_id",
-                    messages: { $push: "$messages" }
+                    messages: { $push: "$message" }
                 }
             }
         ]);
-        if (!user||user.length===0) {
+        console.log("hello" + user)
+        if (!user || user?.length=== 0) {
             return Response.json(
                 {
                     success: false,
-                    message: "No user found"
+                    message: "No messages found for the user"
                 }, { status: 401 });
         }
         return Response.json(

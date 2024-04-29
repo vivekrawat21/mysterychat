@@ -24,7 +24,6 @@ import { Message } from "@/model/User";
 import { useToast } from "./ui/use-toast";
 import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
-import exp from "constants";
 
 type MessageCardProps = {
   message: Message;
@@ -40,25 +39,25 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
     toast({
         title: response.data.message
     })
+   
   };
 
   return (
     <>
       <Card>
         <CardHeader>
-          <CardTitle>Card Title</CardTitle>
+          <CardTitle>{message.content}</CardTitle>
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive">
-                <X className="w-5 h-5" />
+                <X />
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                 <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
+                  Are you sure you want to delete this message? This action cannot be undone.
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
