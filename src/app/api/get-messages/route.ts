@@ -9,16 +9,16 @@ export async function GET(request: Request) {
     await dbConnect();
 
     const session = await getServerSession(authOptions); // Await the getServerSession function call
-    const user: User = session?.user as User; //asserted
+    const _user: User = session?.user as User; //asserted
 
-    if (!session || !session.user) {
+    if (!session || !_user) {
         return Response.json(
             {
                 success: false,
                 message: "You need to be signed in to get messages Not authenticated"
             }, { status: 401 });
     }
-    const userId = new mongoose.Types.ObjectId(user._id); //this will convert the string id to ObjectId it is reuired while using aggregation pipeline
+    const userId = new mongoose.Types.ObjectId(_user._id); //this will convert the string id to ObjectId it is reuired while using aggregation pipeline
     try {
         const user = await UserModel.aggregate([
             {$match: { _id: userId } },

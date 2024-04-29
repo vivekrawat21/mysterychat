@@ -24,6 +24,7 @@ import { Message } from "@/model/User";
 import { useToast } from "./ui/use-toast";
 import axios from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
+import exp from "constants";
 
 type MessageCardProps = {
   message: Message;
@@ -77,7 +78,7 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
   );
 }
 
-export default MessageCard;
+export { MessageCard };
 function useToasts(): { toast: any } {
   throw new Error("Function not implemented.");
 }
