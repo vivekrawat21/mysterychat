@@ -7,6 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
+import dayjs from "dayjs";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -46,11 +47,13 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
     <>
       <Card>
         <CardHeader>
+        <div className="flex justify-between items-center">
           <CardTitle>{message.content}</CardTitle>
+          
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Button variant="destructive">
-                <X />
+                <X className="w-4 h-5"/>
               </Button>
             </AlertDialogTrigger>
             <AlertDialogContent>
@@ -68,10 +71,15 @@ function MessageCard({ message, onMessageDelete }: MessageCardProps) {
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
-
-          <CardDescription>Card Description</CardDescription>
+          </div>
         </CardHeader>
-        <CardContent></CardContent>
+        
+        <CardContent>
+         <div>
+          {dayjs(message.createdAt).format("MMM DD, YYYY, h:mm A")}
+         </div>
+        </CardContent>
+        
       </Card>
     </>
   );
@@ -81,3 +89,8 @@ export { MessageCard };
 function useToasts(): { toast: any } {
   throw new Error("Function not implemented.");
 }
+
+
+
+
+
