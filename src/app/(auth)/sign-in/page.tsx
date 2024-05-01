@@ -83,7 +83,7 @@ const page = () => {
               name="identifier"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>email/username</FormLabel>
+                  <FormLabel>Email/username</FormLabel>
                   <FormControl>
                     <Input placeholder="Email/Username" {...field} />
                   </FormControl>
