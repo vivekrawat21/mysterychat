@@ -8,7 +8,7 @@ import { Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { CardHeader, CardContent, Card } from '@/components/ui/card';
-
+import { useCompletion } from 'ai/react';
 import {
   Form,
   FormControl,
@@ -25,19 +25,29 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import { MessageSchema } from '@/schemas/messageSchema';
 
+const specialChar = '||';
+
+const parseStringMessages = (messageString: string): string[] => {
+  return messageString.split(specialChar);
+};
+
+const initialMessageString =
+  "What's your favorite movie?||Do you have any pets?||What's your dream job?";
 
 export default function SendMessage() {
   const params = useParams<{ username: string }>();
   const username = params.username;
-  const [messagesArray, setMessagesArray] = useState<string[]>([]);
-  const [isSuggestLoading, setIsSuggestLoading] = useState(false);
-  const [error, setError] = useState <Boolean>(false);
 
+  const {
+    complete,
+    completion,
+    isLoading: isSuggestLoading,
+    error,
+  } = useCompletion({
+    api: '/api/suggest-messages',
+    initialCompletion: initialMessageString,
+  });
 
-  const initialMessageString =
-  "What's your favorite movie?||Do you have any pets?||What's your dream job?";
-
-  const intialMessageArray = initialMessageString.split('||');
   const form = useForm<z.infer<typeof MessageSchema>>({
     resolver: zodResolver(MessageSchema),
   });
@@ -50,7 +60,7 @@ export default function SendMessage() {
 
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit = async (data: z.infer<typeof  MessageSchema>) => {
+  const onSubmit = async (data: z.infer<typeof MessageSchema>) => {
     setIsLoading(true);
     try {
       const response = await axios.post<ApiResponse>('/api/send-message', {
@@ -78,35 +88,12 @@ export default function SendMessage() {
 
   const fetchSuggestedMessages = async () => {
     try {
-      setIsSuggestLoading(true);
-      const response = await axios.post('/api/suggest-messages');
-      const messageString = response.data.data;
-      const specialChar = '||';
-  
-      // Split the messageString into an array of individual messages
-      const messagesArray = messageString.split(specialChar);
-  
-      // Returning the array of messages
-      setMessagesArray(messagesArray);
-      return messagesArray;
+      complete('');
     } catch (error) {
-
-      setError(true);
-      // Handle error if needed
-      console.error("Failed to fetch suggested messages:", error);
-       toast({
-        title: 'Error',
-        description: 'Failed to fetch suggested messages',
-        variant: 'destructive',
-      });
-
-      return []; // Return an empty array in case of error
+      console.error('Error fetching messages:', error);
+      // Handle error appropriately
     }
-    finally {
-      setIsSuggestLoading(false);
-    }
-  
-   }
+  };
 
   return (
     <div className="container mx-auto my-8 p-6 bg-white rounded max-w-4xl">
@@ -164,31 +151,19 @@ export default function SendMessage() {
           </CardHeader>
           <CardContent className="flex flex-col space-y-4">
             {error ? (
-              <p className="text-red-500">failed to fetch messages</p>
+              <p className="text-red-500">{error.message}</p>
             ) : (
-              !messagesArray.length ? (
-                intialMessageArray.map((message, index) => (
-                  <Button
-                    key={index}
-                    variant="outline"
-                    className="mb-2"
-                    onClick={() => handleMessageClick(message)}
-                  >
-                    {message}
-                  </Button>
-                ))
-              ):(
-              messagesArray.map((message, index) => (
+              parseStringMessages(completion).map((message, index) => (
                 <Button
                   key={index}
                   variant="outline"
                   className="mb-2"
                   onClick={() => handleMessageClick(message)}
                 >
-                 {isSuggestLoading? (<Loader2 className="mr-2 h-4 w-4 animate-spin" />): (message) }
+                  {message}
                 </Button>
               ))
-            ))}
+            )}
           </CardContent>
         </Card>
       </div>
