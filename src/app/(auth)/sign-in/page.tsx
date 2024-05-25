@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,7 @@ import { Button } from "@/components/ui/button";
 import { signInSchema } from "@/schemas/signInSchema";
 import { signIn } from "next-auth/react";
 
-const page = () => {
+const Page = () => {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -120,4 +120,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

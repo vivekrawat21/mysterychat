@@ -15,7 +15,7 @@ import { Form } from '@/components/ui/form';
 
 import  * as z  from 'zod';
 
-function page() {
+function Page() {
     const router = useRouter();
     const params = useParams<{username: string}>();
     const {toast} = useToast();
@@ -84,4 +84,4 @@ function page() {
   );
 }
 
-export default page
+export default Page
