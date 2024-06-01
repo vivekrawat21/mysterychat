@@ -7,16 +7,15 @@ export const config = {
 };
 
 export async function middleware(request: NextRequest) {
-  // const token = await getToken({ req: request });
-  const sessionCookie = request.cookies.get('next-auth.session-token');
-  console.log(sessionCookie?.value);
+  const token = await getToken({ req: request });
+
   const url = request.nextUrl;
 
 
   // Redirect to dashboard if the user is already authenticated
   // and trying to access sign-in, sign-up, or home page
   if (
-    sessionCookie?.value &&
+     token &&
     (url.pathname.startsWith('/sign-in') ||
       url.pathname.startsWith('/sign-up') ||
       url.pathname.startsWith('/verify'))
@@ -24,7 +23,7 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/dashboard', request.url));
   }
 
-  if (!sessionCookie?.value && url.pathname.startsWith('/dashboard')) {
+  if (token && url.pathname.startsWith('/dashboard')) {
     return NextResponse.redirect(new URL('/sign-in', request.url));
   }
 
