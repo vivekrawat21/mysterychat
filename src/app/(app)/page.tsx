@@ -20,7 +20,7 @@ function Home() {
     Dive into the World of Anonymous Coversations
   </h1>
   <p className="mt-3 md:mt-4 text-base md:text-lg">
-    Explore Mystry chat Where your identity remains a secret
+    Explore Anonymous Feedback Where your identity remains a secret
   </p>
 </section>
 <Carousel className="w-full max-w-xs"
@@ -51,7 +51,7 @@ plugins={[Autoplay({delay:2000})]}>
  </main>
  <footer className="text-center p-4 md:p-6">
 
-      &copy; 2024 Mystry Chat. All rights reserved.
+      &copy; 2024 Anonymous Feedback. All rights reserved.
     
  </footer>
 </>
